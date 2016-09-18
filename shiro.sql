@@ -66,5 +66,5 @@ CREATE TABLE t_role_resource(
 INSERT INTO t_role_resource(role_id,resource_id)
 VALUES(1,1),(1,2),(1,5),(1,8),
 (2,2),(2,5),(2,8),
-(3,3),(3,4),(3,6),(1,7);
+(3,3),(3,4),(3,6),(3,7);
 

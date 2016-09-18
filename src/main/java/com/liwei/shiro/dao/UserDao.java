@@ -24,7 +24,7 @@ public interface UserDao {
      */
     List<User> listByRole(Integer rid);
 
-    List<Resource> listAllResources();
+    List<Resource> listAllResources(Integer uid);
 
     List<String> listRoleSnByUser(Integer uid);
 

@@ -33,4 +33,13 @@ public class Role {
     public void setSn(String sn) {
         this.sn = sn;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sn='" + sn + '\'' +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
 package com.liwei.shiro.dao;
 
+import com.liwei.shiro.model.Resource;
+import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,16 +67,24 @@ public class UserDaoTest {
 
     @Test
     public void testListAllResources() throws Exception {
-
+        Integer uid = 1;
+        List<Resource> resources = userDao.listAllResources(uid);
+        for(Resource resource:resources){
+            logger.debug(resource.toString());
+        }
     }
 
     @Test
     public void testListRoleSnByUser() throws Exception {
-
+        List<String> sns = userDao.listRoleSnByUser(1);
+        logger.debug(sns.toString());
     }
 
     @Test
     public void testListUserRole() throws Exception {
-
+        List<Role> roles = userDao.listUserRole(1);
+        for(Role role:roles){
+            System.out.println(role.toString());
+        }
     }
 }

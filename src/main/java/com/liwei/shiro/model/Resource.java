@@ -42,4 +42,14 @@ public class Resource {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", permission='" + permission + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

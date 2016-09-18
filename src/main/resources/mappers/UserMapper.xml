@@ -9,22 +9,6 @@
         VALUES(#{username},#{password},#{nickname},#{status});
     </insert>
 
-    <!--
-
-    
-    
-    
-
-
-
-
-    List<String> listRoleSnByUser(Integer uid);
-    select r.sn from UserRole ur,Role r,User u where u.id=ur.userId and r.id=ur.roleId and u.id=?
-
-    List<Role> listUserRole(Integer uid);
-    select r from UserRole ur,Role r,User u where u.id=ur.userId and r.id=ur.roleId and u.id=?
-    -->
-
     <select id="listUser" resultType="User">
         SELECT
             id,
@@ -49,7 +33,6 @@
             username = #{username}
     </select>
 
-
     <select id="listByRole" parameterType="int" resultType="User">
         SELECT
             tu.id,
@@ -64,16 +47,35 @@
         WHERE tr.id =#{rid}
     </select>
 
+    <!-- 根据用户 id 查询这个用户拥有的所有资源（这里的资源就代表权限） -->
+    <select id="listAllResources" resultType="Resource" parameterType="int">
+        SELECT tr.`id`,tr.`name`,tr.`permission`,tr.`url`
+        FROM `t_resource` tr
+        LEFT JOIN `t_role_resource` trr ON tr.`id` = trr.`resource_id`
+        LEFT JOIN `t_user_role` tur ON trr.`role_id` = tur.role_id
+        WHERE tur.user_id = #{uid}
+    </select>
 
-    List<> ();
-    select res from User u,Resource res,UserRole ur,RoleResource rr where " +
-    "u.id=ur.userId and ur.roleId=rr.roleId  and rr.resId=res.id and u.id=?
+    <!-- 根据用户 id 查询用户所具有的角色字符串表示 -->
+    <select id="listRoleSnByUser" parameterType="int" resultType="string">
+        SELECT
+            tr.sn
+        FROM `t_role` tr
+        LEFT JOIN `t_user_role` tur ON tr.`id` = tur.role_id
+        LEFT JOIN `t_user` tu ON tur.`user_id` = tu.id
+        WHERE tu.`id` = #{uid}
+    </select>
 
-    <!-- 根据用户 id 查询这个用户拥有的所有资源 -->
-    <select id="listAllResources" resultType="Resource" parameterType="uid">
-
-
-
+    <!-- 根据用户 id 查询用户所具有的角色对象表示 -->
+    <select id="listUserRole" parameterType="int" resultType="Role">
+        SELECT
+            tr.`id`,
+            tr.`name`,
+            tr.`sn`
+            FROM `t_role` tr
+            LEFT JOIN `t_user_role` tur ON tr.`id` = tur.role_id
+            LEFT JOIN `t_user` tu ON tur.`user_id` = tu.id
+        WHERE tu.`id` = #{uid}
     </select>
 
 
