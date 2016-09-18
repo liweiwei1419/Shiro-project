@@ -36,6 +36,7 @@ public class UserDaoTest {
         user.setStatus(1);
         Integer insertNum = userDao.add(user);
         logger.debug(" insertNum => " + insertNum);
+        logger.debug("返回自增长的主键：" + user.getId());
     }
 
     @Test
