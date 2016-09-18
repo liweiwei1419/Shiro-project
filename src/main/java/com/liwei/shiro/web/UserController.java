@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Liwei on 2016/9/18.
@@ -57,12 +59,15 @@ public class UserController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(Model model, User user, HttpServletRequest request){
-
-
+        logger.debug(user.toString());
+        List<Integer> roleIdList = new ArrayList<>();
+        String[] roldIds = request.getParameterValues("roldId");
+        for(String roleId:roldIds){
+            roleIdList.add(Integer.parseInt(roleId));
+        }
+        userService.add(user,roleIdList);
         // 重定向到本 Controller 的 list 方法（Get 方式）
         return "redirect:list";
     }
-
-
 
 }

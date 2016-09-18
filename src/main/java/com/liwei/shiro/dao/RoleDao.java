@@ -17,7 +17,23 @@ public interface RoleDao {
 
     UserRole loadUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
 
+    /**
+     * 为单个用户设置单个角色
+     * @param userId
+     * @param roleId
+     * @return
+     */
     Integer addUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
+
+    /**
+     * 为单个用户设置多个角色
+     * @param userId
+     * @param roleIds
+     * @return
+     */
+    Integer addUserRoles(@Param("userId") int userId,@Param("roleIds")List<Integer> roleIds);
+
+
 
     Integer deleteUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
 

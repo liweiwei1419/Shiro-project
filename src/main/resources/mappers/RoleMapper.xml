@@ -31,6 +31,16 @@
         VALUES(#{userId},#{roleId})
     </insert>
 
+    <!-- 批量添加用户角色关联表数据 -->
+    <insert id="addUserRoles" parameterType="map">
+        INSERT INTO `t_user_role`(`user_id`,`role_id`)
+        VALUES
+        <foreach collection="roleIds" item="role_id" separator=",">
+            (#{userId},#{role_id})
+        </foreach>
+    </insert>
+
+
     <delete id="deleteUserRole" parameterType="map">
         DELETE FROM t_user_role
         WHERE

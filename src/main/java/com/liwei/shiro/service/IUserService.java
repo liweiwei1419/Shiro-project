@@ -15,7 +15,7 @@ public interface IUserService {
      * 添加单个用户
      * @param user
      */
-    void add(User user);
+    Integer add(User user);
 
     /**
      * 批量添加用户角色关联表数据

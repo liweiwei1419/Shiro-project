@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -86,5 +87,16 @@ public class RoleDaoTest {
     public void testLoadResourceRole() throws Exception {
         RoleResource roleResource = roleDao.loadResourceRole(1,1);
         logger.debug(roleResource.toString());
+    }
+
+    @Test
+    public void testAddUserRoles(){
+        Integer userId = 19;
+        List<Integer> roleIds = new ArrayList<>();
+        roleIds.add(8);
+        roleIds.add(9);
+        roleIds.add(10);
+        Integer insertNum = roleDao.addUserRoles(userId,roleIds);
+        logger.debug("insertNum => " + insertNum);
     }
 }

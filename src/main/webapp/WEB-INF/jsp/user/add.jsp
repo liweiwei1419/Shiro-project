@@ -47,7 +47,7 @@
                     <td>角色</td>
                     <td>
                         <c:forEach var="role" items="${roles}">
-                            ${role.name} <input type="checkbox" name="roldIds" value="${role.id}"/><br>
+                            ${role.name} <input type="checkbox" name="roldId" value="${role.id}"/><br>
                         </c:forEach>
                     </td>
                 </tr>

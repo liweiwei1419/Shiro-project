@@ -23,11 +23,18 @@ public class UserService implements IUserService {
     @Autowired
     private RoleDao roleDao;
 
+    /**
+     * 返回新插入用户数据的主键
+     * @param user
+     * @return
+     */
     @Override
-    public void add(User user) {
+    public Integer add(User user) {
         // TODO: 2016/9/18 应该写加密以后的密码
         user.setPassword("password");
         userDao.add(user);
+        Integer userId = user.getId();
+        return userId;
     }
 
     /**
@@ -37,12 +44,8 @@ public class UserService implements IUserService {
      */
     @Override
     public void add(User user, List<Integer> rids) {
-        this.add(user);
-        // 应该返回自增长的主键 // TODO: 2016/9/18
-        Integer userId = user.getId();
-        for(Integer roleId:rids){
-            roleDao.addUserRole(userId,roleId);
-        }
+        Integer userId = this.add(user);
+        roleDao.addUserRoles(userId,rids);
     }
 
     @Override
