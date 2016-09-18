@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -25,13 +27,17 @@ public class UserDaoTest {
         user.setUsername("zhouguang");
         user.setPassword("666666");
         user.setNickname("周光");
+        user.setStatus(1);
         Integer insertNum = userDao.add(user);
         System.out.println(" insertNum => " + insertNum);
     }
 
     @Test
     public void testListUser() throws Exception {
-
+        List<User> users = userDao.listUser();
+        for(User user:users){
+            System.out.println(user);
+        }
     }
 
     @Test

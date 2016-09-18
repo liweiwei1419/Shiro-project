@@ -9,4 +9,33 @@
         VALUES(#{username},#{password},#{nickname},#{status});
     </insert>
 
+    <!--
+
+    User loadByUserName(String username); from User where username=?
+    List<User> listByRole(Integer uid);
+    select u from User u,Role r,UserRole ur where u.id=ur.userId and r.id=ur.roleId and r.id=?
+
+    List<Resource> listAllResources();
+    select res from User u,Resource res,UserRole ur,RoleResource rr where " +
+				"u.id=ur.userId and ur.roleId=rr.roleId  and rr.resId=res.id and u.id=?
+
+    List<String> listRoleSnByUser(Integer uid);
+    select r.sn from UserRole ur,Role r,User u where u.id=ur.userId and r.id=ur.roleId and u.id=?
+
+    List<Role> listUserRole(Integer uid);
+    select r from UserRole ur,Role r,User u where u.id=ur.userId and r.id=ur.roleId and u.id=?
+    -->
+
+    <select id="listUser" resultType="User">
+        SELECT
+            id,
+            username,
+            `password`,
+            nickname,
+            `status`
+        FROM
+            t_user
+    </select>
+
+
 </mapper>
