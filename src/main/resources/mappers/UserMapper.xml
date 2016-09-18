@@ -11,13 +11,12 @@
 
     <!--
 
-    User loadByUserName(String username); from User where username=?
-    List<User> listByRole(Integer uid);
-    select u from User u,Role r,UserRole ur where u.id=ur.userId and r.id=ur.roleId and r.id=?
+    
+    
+    
 
-    List<Resource> listAllResources();
-    select res from User u,Resource res,UserRole ur,RoleResource rr where " +
-				"u.id=ur.userId and ur.roleId=rr.roleId  and rr.resId=res.id and u.id=?
+
+
 
     List<String> listRoleSnByUser(Integer uid);
     select r.sn from UserRole ur,Role r,User u where u.id=ur.userId and r.id=ur.roleId and u.id=?
@@ -35,6 +34,46 @@
             `status`
         FROM
             t_user
+    </select>
+
+    <select id="loadByUserName" parameterType="string" resultType="User">
+        SELECT
+            id,
+            username,
+            `password`,
+            nickname,
+            `status`
+        FROM
+            t_user
+        WHERE
+            username = #{username}
+    </select>
+
+
+    <select id="listByRole" parameterType="int" resultType="User">
+        SELECT
+            tu.id,
+            tu.username,
+            tu.`password`,
+            tu.nickname,
+            tu.`status`
+        FROM
+            t_user tu
+        LEFT JOIN t_user_role tur ON tu.id = tur.user_id
+        LEFT JOIN t_role tr ON tur.role_id = tr.id
+        WHERE tr.id =#{rid}
+    </select>
+
+
+    List<> ();
+    select res from User u,Resource res,UserRole ur,RoleResource rr where " +
+    "u.id=ur.userId and ur.roleId=rr.roleId  and rr.resId=res.id and u.id=?
+
+    <!-- 根据用户 id 查询这个用户拥有的所有资源 -->
+    <select id="listAllResources" resultType="Resource" parameterType="uid">
+
+
+
     </select>
 
 

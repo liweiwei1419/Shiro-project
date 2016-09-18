@@ -17,7 +17,12 @@ public interface UserDao {
 
     User loadByUserName(String username);
 
-    List<User> listByRole(Integer uid);
+    /**
+     * 根据角色 id 查询所有是该角色的用户列表
+     * @param rid
+     * @return
+     */
+    List<User> listByRole(Integer rid);
 
     List<Resource> listAllResources();
 
