@@ -30,6 +30,20 @@
           id = #{id}
     </update>
 
+
+    <select id="load" parameterType="int" resultType="User">
+        SELECT
+            id,
+            username,
+            `password`,
+            nickname,
+            `status`
+        FROM
+            t_user
+        WHERE
+            id = #{id}
+    </select>
+
     <select id="listUser" resultType="User">
         SELECT
             id,

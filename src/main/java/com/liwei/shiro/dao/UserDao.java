@@ -15,6 +15,8 @@ public interface UserDao {
 
     Integer update(User user);
 
+    User load(Integer id);
+
     List<User> listUser();
 
     User loadByUserName(String username);

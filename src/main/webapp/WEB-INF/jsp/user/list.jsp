@@ -28,7 +28,7 @@
                         【<a class="status" data-id="${user.id}" data-status="${user.status}">启用</a>】
                     </td>
                     <td>
-                        <a href="#">更新用户信息</a>
+                        <a href="${pageContext.request.contextPath}/admin/user/update/${user.id}">更新用户信息</a>
                         <a href="#">查询用户权限</a>
                     </td>
                 </tr>

@@ -65,7 +65,7 @@ public class UserService implements IUserService {
 
     @Override
     public User load(int id) {
-        return null;
+        return userDao.load(id);
     }
 
     @Override
@@ -100,6 +100,6 @@ public class UserService implements IUserService {
 
     @Override
     public List<Role> listUserRole(int uid) {
-        return null;
+        return userDao.listUserRole(uid);
     }
 }

@@ -1,5 +1,6 @@
 package com.liwei.shiro.web;
 
+import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.User;
 import com.liwei.shiro.service.IRoleService;
 import com.liwei.shiro.service.IUserService;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -88,5 +90,30 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping(value = "/update/{id}",method = RequestMethod.GET)
+    public String update(@PathVariable("id") Integer id,Model model){
+        // 要从数据库查询对象进行回显
+        User user = userService.load(id);
+        model.addAttribute("user",user);
+        model.addAttribute("roles",roleService.list());
+
+        /**
+         * 根据用户 id 查询用户的所有角色
+         */
+        List<Role> hasRoles = userService.listUserRole(id);
+        /**
+         * 将用户的所有角色 id 添加到一个字符串中
+         */
+        List<Integer> rids = new ArrayList<>();
+        for(Role r:hasRoles) {
+            rids.add(r.getId());
+        }
+        model.addAttribute("hasRole", rids);
+        return "user/update";
+    }
+
+
+
 
 }
