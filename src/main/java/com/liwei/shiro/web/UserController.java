@@ -1,5 +1,6 @@
 package com.liwei.shiro.web;
 
+import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.User;
 import com.liwei.shiro.service.IRoleService;
@@ -139,6 +140,20 @@ public class UserController {
         }
         userService.update(user,roleIdList);
         return "redirect:list";
+    }
+
+
+    /**
+     *  根据用户 id 跳转到用户权限的列表页面
+     * @return
+     */
+    @RequestMapping(value = "/resources/{id}",method = RequestMethod.GET)
+    public String listResources(@PathVariable("id") Integer userId,Model model){
+        List<Resource> resourceList = userService.listAllResource(userId);
+        User user = userService.load(userId);
+        model.addAttribute("resources",resourceList);
+        model.addAttribute("user",user);
+        return "user/resources";
     }
 
 }

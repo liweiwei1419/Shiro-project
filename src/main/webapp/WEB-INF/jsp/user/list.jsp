@@ -9,13 +9,14 @@
 
     <table border="1">
         <thead>
-            <th>
-                <td>用户标识</td>
-                <td>用户名称</td>
-                <td>用户昵称</td>
-                <td>用户状态</td>
-                <td>用户操作</td>
-            </th>
+            <tr>
+                <th>用户标识</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>用户昵称</th>
+                <th>用户状态</th>
+                <th>用户操作</th>
+            </tr>
         </thead>
         <tbody>
             <c:forEach items="${list}" var="user">
@@ -29,7 +30,7 @@
                     </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/admin/user/update/${user.id}">更新用户信息</a>
-                        <a href="#">查询用户权限</a>
+                        <a href="${pageContext.request.contextPath}/admin/user/resources/${user.id}">查询用户权限</a>
                     </td>
                 </tr>
             </c:forEach>
