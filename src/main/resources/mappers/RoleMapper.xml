@@ -5,6 +5,41 @@
 <mapper namespace="com.liwei.shiro.dao.RoleDao">
 
 
+
+    <insert id="add" parameterType="Role">
+        INSERT INTO t_role(`name`,sn)
+        VALUES (#{name},#{sn})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_role
+        WHERE id = #{id}
+    </delete>
+
+    <select id="load" parameterType="int" resultType="Role">
+        SELECT
+            id,
+            `name`,
+            sn
+        FROM
+            t_role
+        WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="Role">
+        UPDATE
+            t_role
+        <set>
+            <if test="name != null">
+                `name` = #{name}
+            </if>
+            <if test="sn != null">
+                sn = #{sn}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
     <select id="listRole" resultType="Role">
         SELECT
             id,
@@ -25,7 +60,6 @@
             user_id = #{userId} AND role_id = #{roleId}
     </select>
 
-
     <insert id="addUserRole" parameterType="map">
         INSERT INTO `t_user_role`(`user_id`,`role_id`)
         VALUES(#{userId},#{roleId})
@@ -39,7 +73,6 @@
             (#{userId},#{role_id})
         </foreach>
     </insert>
-
 
     <delete id="deleteUserRole" parameterType="map">
         DELETE FROM t_user_role
@@ -70,7 +103,6 @@
         INSERT INTO t_role_resource(role_id,resource_id)
         VALUES(#{roleId},#{resourceId})
     </insert>
-
 
     <delete id="deleteRoleResource" parameterType="map">
         DELETE FROM t_role_resource

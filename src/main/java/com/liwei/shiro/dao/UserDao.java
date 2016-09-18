@@ -15,6 +15,8 @@ public interface UserDao {
 
     Integer update(User user);
 
+    Integer delete(Integer id);
+
     User load(Integer id);
 
     List<User> listUser();

@@ -30,6 +30,11 @@
           id = #{id}
     </update>
 
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_user
+        where id = #{id}
+    </delete>
+
 
     <select id="load" parameterType="int" resultType="User">
         SELECT

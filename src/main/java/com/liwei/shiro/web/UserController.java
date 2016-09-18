@@ -68,7 +68,7 @@ public class UserController {
         logger.debug("添加用户 post 方法");
         logger.debug(user.toString());
         List<Integer> roleIdList = new ArrayList<>();
-        String[] roldIds = request.getParameterValues("roldId");
+        String[] roldIds = request.getParameterValues("roleId");
         for(String roleId:roldIds){
             roleIdList.add(Integer.parseInt(roleId));
         }
@@ -78,8 +78,8 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public Map<String,Object> update(User user){
+    @RequestMapping(value = "/updateStatus",method = RequestMethod.POST)
+    public Map<String,Object> updateStatus(User user){
         Integer updateNum = userService.update(user);
         Map<String,Object> result = new HashMap<>();
         if(updateNum > 0){
@@ -91,11 +91,18 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 跳转到用户信息更新页面
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/update/{id}",method = RequestMethod.GET)
     public String update(@PathVariable("id") Integer id,Model model){
         // 要从数据库查询对象进行回显
         User user = userService.load(id);
         model.addAttribute("user",user);
+        // 所有的角色列表
         model.addAttribute("roles",roleService.list());
 
         /**
@@ -109,11 +116,29 @@ public class UserController {
         for(Role r:hasRoles) {
             rids.add(r.getId());
         }
+        // 指定用户拥有的角色信息
         model.addAttribute("hasRole", rids);
         return "user/update";
     }
 
 
-
+    /**
+     * 更新用户的信息（包括更新用户绑定的角色）
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/update/{id}",method = RequestMethod.POST)
+    public String update(User user,HttpServletRequest request){
+        // // TODO: 2016/9/18 这个过程还是可以优化的，如果属性没有发生变化的地方，是不须要更新的
+        logger.debug("user => " + user);
+        userService.update(user);
+        String[] roleIds = request.getParameterValues("roleId");
+        List<Integer> roleIdList = new ArrayList<>();
+        for(String roleId:roleIds){
+            roleIdList.add(Integer.valueOf(roleId));
+        }
+        userService.update(user,roleIdList);
+        return "redirect:list";
+    }
 
 }

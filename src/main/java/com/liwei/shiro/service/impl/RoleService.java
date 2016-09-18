@@ -1,6 +1,7 @@
 package com.liwei.shiro.service.impl;
 
 import com.liwei.shiro.dao.RoleDao;
+import com.liwei.shiro.dao.UserDao;
 import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.RoleResource;
@@ -20,19 +21,20 @@ public class RoleService implements IRoleService {
     @Autowired
     private RoleDao roleDao;
 
-    @Override
-    public void add(Role role) {
 
+    @Override
+    public Integer add(Role role) {
+        return roleDao.add(role);
     }
 
     @Override
-    public void delete(int id) {
-
+    public Integer delete(int id) {
+        return roleDao.delete(id);
     }
 
     @Override
     public Role load(int id) {
-        return null;
+        return roleDao.load(id);
     }
 
     @Override
@@ -41,52 +43,52 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public void update(Role role) {
-
+    public Integer update(Role role) {
+        return roleDao.update(role);
     }
 
     @Override
     public List<Role> listRole() {
-        return null;
+        return roleDao.listRole();
     }
 
     @Override
     public UserRole loadUserRole(int uid, int roleId) {
-        return null;
+        return roleDao.loadUserRole(uid,roleId);
     }
 
     @Override
     public void addUserRole(int uid, int roleId) {
-
+        roleDao.addUserRole(uid,roleId);
     }
 
     @Override
     public void deleteUserRole(int uid, int roleId) {
-
+        roleDao.deleteUserRole(uid,roleId);
     }
 
     @Override
     public void deleteUserRoles(int uid) {
-
+        roleDao.deleteUserRoles(uid);
     }
 
     @Override
     public List<Resource> listRoleResource(int roleId) {
-        return null;
+        return roleDao.listRoleResource(roleId);
     }
 
     @Override
     public void addRoleResource(int roleId, int resId) {
-
+        roleDao.addRoleResource(roleId,resId);
     }
 
     @Override
     public void deleteRoleResource(int roleId, int resId) {
-
+        roleDao.deleteRoleResource(roleId,resId);
     }
 
     @Override
     public RoleResource loadResourceRole(int roleId, int resId) {
-        return null;
+        return roleDao.loadResourceRole(roleId,resId);
     }
 }

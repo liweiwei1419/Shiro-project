@@ -1,13 +1,13 @@
-package com.liwei.shiro.dao;
+package com.liwei.shiro.service;
 
 import com.liwei.shiro.model.Resource;
 
 import java.util.List;
 
 /**
- * Created by Liwei on 2016/9/18.
+ * Created by Liwei on 2016/9/19.
  */
-public interface ResourceDao {
+public interface IResourceService {
 
     Integer add(Resource res);
 

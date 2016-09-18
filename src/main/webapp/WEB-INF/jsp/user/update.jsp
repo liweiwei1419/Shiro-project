@@ -8,13 +8,9 @@
 </head>
 <body>
     <jsp:include page="inc.jsp"></jsp:include>
-    <sf:form action="${pageContext.request.contextPath}/admin/user/update" method="post" modelAttribute="user" id="addForm">
+    <span>修改用户功能</span>
+    <sf:form method="post" modelAttribute="user" id="addForm">
         <table>
-            <thead>
-                <th>
-                    <td colspan="2">修改用户功能</td>
-                </th>
-            </thead>
             <tbody>
                 <tr>
                     <td>用户名</td>
@@ -46,9 +42,16 @@
                 <tr>
                     <td>角色</td>
                     <td>
-                        <c:forEach var="role" items="${roles}">
-                            ${role.name} <input type="checkbox" name="roldId" value="${role.id}"/><br>
+                        <%-- 先把后台传递过来的 List 数组转换为 JS 能识别的数组 --%>
+                        <c:forEach items="${hasRole}" var="hr">
+                            <input type="hidden" class="hasRole" value="${hr}"/>
                         </c:forEach>
+
+                        <%-- 然后再给页面上的复选框赋值 --%>
+                        <c:forEach var="role" items="${roles}">
+                            ${role.name} <input class="roleId" type="checkbox" name="roleId" value="${role.id}"/><br>
+                        </c:forEach>
+
                     </td>
                 </tr>
             </tbody>
@@ -62,5 +65,29 @@
             </tfoot>
         </table>
     </sf:form>
+
+    <%-- 不要使用自结束 --%>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            // 先把后台传递过来的 List 数组转换为 JS 能识别的数组
+            var hasRoles = new Array();
+            $(".hasRole").each(function(){
+               hasRoles.push($(this).val());
+            });
+
+            // 然后再给页面上的复选框赋值
+            $(".roleId").each(function(){
+                var roleCheckbox = $(this);
+                var value = roleCheckbox.val();
+                if($.inArray(value,hasRoles)>=0){
+                    roleCheckbox.attr("checked","checked");
+                }
+            });
+
+        });
+
+
+    </script>
 </body>
 </html>

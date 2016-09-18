@@ -54,7 +54,7 @@
                 var user_id = oper.attr("data-id");
                 var user_status = oper.attr("data-status");
                 var update_status = (user_status == 1 ? 0: 1);
-                $.post("${pageContext.request.contextPath}/admin/user/update",
+                $.post("${pageContext.request.contextPath}/admin/user/updateStatus",
                         {
                             id:user_id,
                             status:update_status

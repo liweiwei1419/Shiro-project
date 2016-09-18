@@ -13,6 +13,16 @@ import java.util.List;
  */
 public interface RoleDao {
 
+    Integer add(Role role);
+
+    Integer delete(Integer id);
+
+    Role load(Integer id);
+
+    Integer update(Role role);
+
+
+
     List<Role> listRole();
 
     UserRole loadUserRole(@Param("userId") int userId,@Param("roleId") int roleId);

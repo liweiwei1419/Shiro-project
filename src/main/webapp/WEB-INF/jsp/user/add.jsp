@@ -8,13 +8,9 @@
 </head>
 <body>
     <jsp:include page="inc.jsp"></jsp:include>
+    <span>添加用户功能</span>
     <sf:form action="${pageContext.request.contextPath}/admin/user/add" method="post" modelAttribute="user" id="addForm">
         <table>
-            <thead>
-                <th>
-                    <td colspan="2">添加用户功能</td>
-                </th>
-            </thead>
             <tbody>
                 <tr>
                     <td>用户名</td>
@@ -47,7 +43,7 @@
                     <td>角色</td>
                     <td>
                         <c:forEach var="role" items="${roles}">
-                            ${role.name} <input type="checkbox" name="roldId" value="${role.id}"/><br>
+                            ${role.name} <input type="checkbox" name="roleId" value="${role.id}"/><br>
                         </c:forEach>
                     </td>
                 </tr>

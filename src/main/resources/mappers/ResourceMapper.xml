@@ -14,6 +14,45 @@
           `t_resource`
     </select>
 
+    <insert id="add" parameterType="Resource">
+        insert into t_resource(name,permission,url)
+        VALUES (#{name},#{permission},#{url})
+    </insert>
 
+    <update id="update" parameterType="Resource">
+        update t_resource
+        <set>
+            <if test="name != null">
+                name = #{name}
+            </if>
+        </set>
+        <set>
+            <if test="permission != null">
+                permission = #{permission}
+            </if>
+        </set>
+        <set>
+            <if test="url != null">
+                url = #{url}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_resource
+        WHERE id = #{id}
+    </delete>
+
+    <select id="load" parameterType="int" resultType="Resource">
+        SELECT
+            `id`,
+            `name`,
+            `permission`,
+            `url`
+        FROM
+          `t_resource`
+        WHERE id = #{id}
+    </select>
 
 </mapper>
