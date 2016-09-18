@@ -4,6 +4,7 @@ import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.RoleResource;
 import com.liwei.shiro.model.UserRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,29 +13,29 @@ import java.util.List;
  */
 public interface RoleDao {
 
-    public List<Role> listRole();
+    List<Role> listRole();
 
-    public UserRole loadUserRole(int uid, int roleId);
+    UserRole loadUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
 
-    public void addUserRole(int uid,int roleId);
+    Integer addUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
 
-    public void deleteUserRole(int uid,int roleId);
+    Integer deleteUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
 
     /**
      * 删除某个用户的所有角色
      * @param uid
      */
-    public void deleteUserRoles(int uid);
+    Integer deleteUserRoles(int uid);
     /**
      * 根据角色id获取可以访问的所有资源
      * @param roleId
      * @return
      */
-    public List<Resource> listRoleResource(int roleId);
+    List<Resource> listRoleResource(int roleId);
 
-    public void addRoleResource(int roleId,int resId);
+    Integer addRoleResource(@Param("roleId") int roleId,@Param("resourceId") int resourceId);
 
-    public void deleteRoleResource(int roleId,int resId);
+    Integer deleteRoleResource(@Param("roleId")int roleId,@Param("resourceId")int resorceId);
 
-    public RoleResource loadResourceRole(int roleId, int resId);
+    RoleResource loadResourceRole(@Param("roleId")int roleId,@Param("resourceId") int resorceId);
 }

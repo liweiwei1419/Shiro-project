@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ResourceDao {
 
-    public List<Resource> listResource();
+    List<Resource> listResource();
 }

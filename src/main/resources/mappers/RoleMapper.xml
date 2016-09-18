@@ -5,6 +5,78 @@
 <mapper namespace="com.liwei.shiro.dao.RoleDao">
 
 
+    <select id="listRole" resultType="Role">
+        SELECT
+            id,
+            `name`,
+            sn
+        FROM
+            t_role
+    </select>
 
+    <select id="loadUserRole" resultType="UserRole" parameterType="map">
+        SELECT
+            id,
+            user_id,
+            role_id
+        FROM
+            t_user_role
+        WHERE
+            user_id = #{userId} AND role_id = #{roleId}
+    </select>
+
+
+    <insert id="addUserRole" parameterType="map">
+        INSERT INTO `t_user_role`(`user_id`,`role_id`)
+        VALUES(#{userId},#{roleId})
+    </insert>
+
+    <delete id="deleteUserRole" parameterType="map">
+        DELETE FROM t_user_role
+        WHERE
+            user_id = #{userId} AND role_id = #{roleId}
+    </delete>
+
+    <!-- 删除这个用户所有的角色 -->
+    <delete id="deleteUserRoles">
+        DELETE FROM t_user_role
+        WHERE
+            user_id = #{userId}
+    </delete>
+
+    <!-- 根据角色 id 查询该角色 id 下的所有资源 -->
+    <select id="listRoleResource" parameterType="int" resultType="Resource">
+        SELECT
+            tr.`id`,
+            tr.`name`,
+            tr.`permission`,
+            tr.`url`
+        FROM `t_resource` tr
+        LEFT JOIN `t_role_resource` trr ON tr.`id` = trr.`resource_id`
+        WHERE trr.`role_id` = #{roleId}
+    </select>
+
+    <insert id="addRoleResource" parameterType="map">
+        INSERT INTO t_role_resource(role_id,resource_id)
+        VALUES(#{roleId},#{resourceId})
+    </insert>
+
+
+    <delete id="deleteRoleResource" parameterType="map">
+        DELETE FROM t_role_resource
+        WHERE
+            role_id = #{roleId} AND resource_id = #{resourceId}
+    </delete>
+
+    <select id="loadResourceRole" parameterType="map" resultType="RoleResource">
+        SELECT
+            id,
+            role_id,
+            resource_id
+        FROM
+            t_role_resource
+        WHERE
+            role_id = #{roleId} AND resource_id = #{resourceId}
+    </select>
 
 </mapper>

@@ -33,4 +33,13 @@ public class RoleResource {
     public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
     }
+
+    @Override
+    public String toString() {
+        return "RoleResource{" +
+                "id=" + id +
+                ", roleId=" + roleId +
+                ", resourceId=" + resourceId +
+                '}';
+    }
 }
