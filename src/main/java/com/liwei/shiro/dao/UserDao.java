@@ -13,6 +13,8 @@ public interface UserDao {
 
     Integer add(User user);
 
+    Integer update(User user);
+
     List<User> listUser();
 
     User loadByUserName(String username);

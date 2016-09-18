@@ -59,8 +59,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void update(User user) {
-
+    public Integer update(User user) {
+        return userDao.update(user);
     }
 
     @Override

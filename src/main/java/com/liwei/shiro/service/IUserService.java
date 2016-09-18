@@ -28,7 +28,7 @@ public interface IUserService {
 
     void update(User user,List<Integer> rids);
 
-    void update(User user);
+    Integer update(User user);
 
     User load(int id);
 

@@ -9,6 +9,27 @@
         VALUES(#{username},#{password},#{nickname},#{status});
     </insert>
 
+    <!-- 动态更新对象的写法 -->
+    <update id="update" parameterType="User">
+        UPDATE t_user
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                `password` = #{password},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname},
+            </if>
+            <if test="status != null">
+                `status` = #{status}
+            </if>
+        </set>
+        WHERE
+          id = #{id}
+    </update>
+
     <select id="listUser" resultType="User">
         SELECT
             id,
