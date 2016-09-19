@@ -45,6 +45,7 @@
                     </div>
                 </div>
             </form>
+            <font color="red">${msg}</font>
         </div>
     </body>
 </html>

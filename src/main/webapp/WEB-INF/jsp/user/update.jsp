@@ -41,7 +41,7 @@
                             <div class="col-sm-10">
                                 <sf:select path="status" class="form-control" id="inputStatus">
                                     <sf:option value="0">停用</sf:option>
-                                    <sf:option value="0">启用</sf:option>
+                                    <sf:option value="1">启用</sf:option>
                                 </sf:select>
                             </div>
                         </div>

@@ -132,14 +132,13 @@ public class UserController {
     public String update(User user,HttpServletRequest request){
         // // TODO: 2016/9/18 这个过程还是可以优化的，如果属性没有发生变化的地方，是不须要更新的
         logger.debug("user => " + user);
-        userService.update(user);
         String[] roleIds = request.getParameterValues("roleId");
         List<Integer> roleIdList = new ArrayList<>();
         for(String roleId:roleIds){
             roleIdList.add(Integer.valueOf(roleId));
         }
         userService.update(user,roleIdList);
-        return "redirect:list";
+        return "redirect:/admin/user/list";
     }
 
 

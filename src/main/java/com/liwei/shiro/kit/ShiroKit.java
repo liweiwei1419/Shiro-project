@@ -12,6 +12,6 @@ public class ShiroKit {
     }
 
     public static void main(String[] args) {
-        System.out.println(md5("123456","liwei").length());
+        System.out.println(md5("123456","liwei"));
     }
 }

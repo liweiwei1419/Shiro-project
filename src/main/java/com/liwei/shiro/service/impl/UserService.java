@@ -2,10 +2,16 @@ package com.liwei.shiro.service.impl;
 
 import com.liwei.shiro.dao.RoleDao;
 import com.liwei.shiro.dao.UserDao;
+import com.liwei.shiro.kit.ShiroKit;
 import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.User;
 import com.liwei.shiro.service.IUserService;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +22,8 @@ import java.util.List;
  */
 @Service
 public class UserService implements IUserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserDao userDao;
@@ -30,8 +38,8 @@ public class UserService implements IUserService {
      */
     @Override
     public Integer add(User user) {
-        // TODO: 2016/9/18 应该写加密以后的密码
-        user.setPassword("password");
+        // 使用用户名作为盐值，MD5 算法加密
+        user.setPassword(ShiroKit.md5(user.getPassword(),user.getUsername()));
         userDao.add(user);
         Integer userId = user.getId();
         return userId;
@@ -72,7 +80,7 @@ public class UserService implements IUserService {
         Integer userId = user.getId();
         roleDao.deleteUserRoles(userId);
         roleDao.addUserRoles(userId,rids);
-        userDao.update(user);
+        this.update(user);
     }
 
     /**
@@ -82,6 +90,10 @@ public class UserService implements IUserService {
      */
     @Override
     public Integer update(User user) {
+        String password = user.getPassword();
+        if(password!=null){
+            user.setPassword(ShiroKit.md5(user.getPassword(),user.getUsername()));
+        }
         return userDao.update(user);
     }
 
@@ -120,8 +132,15 @@ public class UserService implements IUserService {
         if(user == null){
             // 抛出对象不存在异常
             // TODO: 2016/9/18  应该使用 Shiro 框架的登录方式，暂时先这样
-        }else if(!user.getPassword().equals(password)){
+            logger.debug("用户名不存在");
+            throw new UnknownAccountException("用户名和密码不匹配");
+        }else if(false){
+            // !user.getPassword().equals(password)
+            logger.debug("密码错误");
             // 抛出密码不匹配异常
+            throw new IncorrectCredentialsException("用户名和密码不匹配");
+        }else if(user.getStatus() == 0){
+            throw new LockedAccountException("用户已经被锁定，请联系管理员启动");
         }
         return user;
     }
