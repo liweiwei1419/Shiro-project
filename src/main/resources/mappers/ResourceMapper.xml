@@ -23,17 +23,13 @@
         update t_resource
         <set>
             <if test="name != null">
-                name = #{name}
+                name = #{name},
             </if>
-        </set>
-        <set>
             <if test="permission != null">
-                permission = #{permission}
+                permission = #{permission},
             </if>
-        </set>
-        <set>
             <if test="url != null">
-                url = #{url}
+                url = #{url},
             </if>
         </set>
         WHERE id = #{id}
