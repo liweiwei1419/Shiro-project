@@ -1,6 +1,10 @@
 package com.liwei.shiro.web;
 
 import com.liwei.shiro.model.User;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,7 +32,18 @@ public class LoginController {
         String password = user.getPassword();
         logger.debug("username => " + username);
         logger.debug("password => " + password);
-        return "redirect:index.jsp";
+        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
+        Subject subject = SecurityUtils.getSubject();
+        String msg = null;
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            msg = e.getMessage();
+        }
+        if(msg == null){
+            return "redirect:/admin/user/list";
+        }
+        return "login";
     }
 
 }

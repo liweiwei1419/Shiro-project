@@ -3,7 +3,7 @@ USE ssm_shiro;
 CREATE TABLE t_user(
   id TINYINT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(30) NOT NULL,
-  `password` VARCHAR(30) NOT NULL,
+  `password` VARCHAR(32) NOT NULL,
   nickname VARCHAR(30) NOT NULL,
   `status` TINYINT
 );
