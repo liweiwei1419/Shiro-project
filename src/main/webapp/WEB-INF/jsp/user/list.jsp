@@ -5,37 +5,42 @@
     <title>用户列表</title>
 </head>
 <body>
-    <jsp:include page="inc.jsp"></jsp:include>
+    <div class="container">
+        <jsp:include page="inc.jsp"></jsp:include>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>用户标识</th>
-                <th>用户名</th>
-                <th>密码</th>
-                <th>用户昵称</th>
-                <th>用户状态</th>
-                <th>用户操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${list}" var="user">
-                <tr>
-                    <td>${user.id}</td>
-                    <td>${user.username}</td>
-                    <td>${user.password}</td>
-                    <td>${user.nickname}</td>
-                    <td >
-                        【<a class="status" data-id="${user.id}" data-status="${user.status}">启用</a>】
-                    </td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/admin/user/update/${user.id}">更新用户信息</a>
-                        <a href="${pageContext.request.contextPath}/admin/user/resources/${user.id}">查询用户权限</a>
-                    </td>
+        <table class="table table-striped">
+            <thead>
+                <tr class="info">
+                    <th>用户标识</th>
+                    <th>用户名</th>
+                    <th>密码</th>
+                    <th>用户昵称</th>
+                    <th>用户状态</th>
+                    <th>用户操作</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <c:forEach items="${list}" var="user">
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.password}</td>
+                        <td>${user.nickname}</td>
+                        <td >
+                            【<a class="status" data-id="${user.id}" data-status="${user.status}">启用</a>】
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/admin/user/update/${user.id}">更新用户信息</a>
+                            <a href="${pageContext.request.contextPath}/admin/user/resources/${user.id}">查询用户权限</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        用户操作：
+        <a class="btn btn-primary" role="button" href="${pageContext.request.contextPath}/admin/user/add">添加用户</a>
+    </div>
+
     <%-- 不要使用自结束 --%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery-3.1.0.min.js"></script>
     <script type="text/javascript">
