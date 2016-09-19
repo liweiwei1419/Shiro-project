@@ -31,10 +31,10 @@
             t_role
         <set>
             <if test="name != null">
-                `name` = #{name}
+                name = #{name},
             </if>
             <if test="sn != null">
-                sn = #{sn}
+                sn = #{sn},
             </if>
         </set>
         WHERE id = #{id}
