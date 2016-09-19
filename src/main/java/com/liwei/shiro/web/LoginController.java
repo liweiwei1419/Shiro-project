@@ -62,4 +62,9 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping(value = "/unAuthorization")
+    public String unAuthorization(){
+        return "unAuthorization";
+    }
+
 }

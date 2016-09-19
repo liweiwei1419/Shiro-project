@@ -9,9 +9,12 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Liwei on 2016/9/19.
@@ -19,6 +22,8 @@ import org.apache.shiro.util.ByteSource;
 public class MyRealm extends AuthorizingRealm {
 
     private IUserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(MyRealm.class);
 
 
     /**
@@ -28,7 +33,10 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        logger.debug("MyRealm doGetAuthorizationInfo");
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.addStringPermission("/admin/user/list");
+        return info;
     }
 
     /**
