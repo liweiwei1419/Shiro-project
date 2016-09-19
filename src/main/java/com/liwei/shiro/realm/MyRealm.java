@@ -1,5 +1,6 @@
 package com.liwei.shiro.realm;
 
+import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.User;
 import com.liwei.shiro.service.IUserService;
 import com.liwei.shiro.service.impl.UserService;
@@ -15,6 +16,10 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Liwei on 2016/9/19.
@@ -34,8 +39,22 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         logger.debug("MyRealm doGetAuthorizationInfo");
+
+        // 获得经过认证的主体信息
+        User user = (User)principalCollection.getPrimaryPrincipal();
+        Integer userId = user.getId();
+        UserService userService = (UserService)InitServlet.getBean("userService");
+        List<Resource> resourceList = userService.listAllResource(userId);
+        List<String> roleSnList = userService.listRoleSnByUser(userId);
+
+        List<String> resStrList = new ArrayList<>();
+        for(Resource resource:resourceList){
+            resStrList.add(resource.getUrl());
+        }
+
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addStringPermission("/admin/user/list");
+        info.setRoles(new HashSet<>(roleSnList));
+        info.setStringPermissions(new HashSet<>(resStrList));
         return info;
     }
 
