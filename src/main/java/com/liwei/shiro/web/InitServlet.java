@@ -17,6 +17,7 @@ public class InitServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        // 初始化 Spring 的工厂
         wc = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
     }
 

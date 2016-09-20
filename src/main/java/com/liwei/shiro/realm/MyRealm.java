@@ -55,6 +55,11 @@ public class MyRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setRoles(new HashSet<>(roleSnList));
         info.setStringPermissions(new HashSet<>(resStrList));
+
+        // 以上完成了动态地对用户授权
+        logger.debug("role => " + roleSnList);
+        logger.debug("permission => " + resStrList);
+
         return info;
     }
 
