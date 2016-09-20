@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!-- 声明一个密码匹配器 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <!-- 设置该密码匹配器使用的算法是 md5 -->
+        <property name="hashAlgorithmName" value="md5"/>
+
+    </bean>
+
+    <!-- 声明一个自定义的 Realm -->
+    <bean id="myRealm" class="com.liwei.shiro.realm.MyRealm">
+        <!-- 将上面声明的密码匹配器注入到自定义 Realm 的属性中去 -->
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <!-- 将自定义的权限匹配器注入到自定义 Realm 中 -->
+        <property name="permissionResolver" ref="permissionResolver"/>
+    </bean>
+
+    <!-- 自定义一个权限匹配器 -->
+    <bean id="permissionResolver" class="com.liwei.shiro.permission.UrlPermissionResolver"/>
+
+
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 如果认证不通过,浏览器通过 Get 方式请求到 /login 上 -->
+        <property name="loginUrl" value="/login"/>
+
+        <!-- override these for application-specific URLs if you like:
+
+        <property name="successUrl" value="/home.jsp"/>
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/> -->
+        <!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
+        <!-- defined will be automatically acquired and available via its beanName in chain        -->
+        <!-- definitions, but you can perform instance overrides or name aliases here if you like: -->
+        <!-- <property name="filters">
+            <util:map>
+                <entry key="anAlias" value-ref="someFilter"/>
+            </util:map>
+        </property> -->
+        <property name="filterChainDefinitions">
+            <value>
+                /admin/**=authc,resourceCheckFilter
+                /login=anon
+            </value>
+        </property>
+    </bean>
+
+    <!-- 声明一个自定义的过滤器 -->
+    <bean id="resourceCheckFilter" class="com.liwei.shiro.filter.ResourceCheckFilter">
+        <!-- 为上面声明的自定义过滤器注入属性值 -->
+        <property name="errorUrl" value="/unAuthorization"/>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
+        <!-- 设置安全管理器的安全数据源为自定义的 Realm -->
+        <property name="realm" ref="myRealm"/>
+        <!-- By default the servlet container sessions will be used.  Uncomment this line
+             to use shiro's native sessions (see the JavaDoc for more): -->
+        <!-- <property name="sessionMode" value="native"/> -->
+    </bean>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

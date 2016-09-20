@@ -16,6 +16,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import java.util.List;
  */
 public class MyRealm extends AuthorizingRealm {
 
+    @Autowired
     private IUserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(MyRealm.class);
@@ -43,7 +45,7 @@ public class MyRealm extends AuthorizingRealm {
         // 获得经过认证的主体信息
         User user = (User)principalCollection.getPrimaryPrincipal();
         Integer userId = user.getId();
-        UserService userService = (UserService)InitServlet.getBean("userService");
+        // UserService userService = (UserService)InitServlet.getBean("userService");
         List<Resource> resourceList = userService.listAllResource(userId);
         List<String> roleSnList = userService.listRoleSnByUser(userId);
 
@@ -74,7 +76,7 @@ public class MyRealm extends AuthorizingRealm {
         String username = authenticationToken.getPrincipal().toString();
         // String password = new String((char[])authenticationToken.getCredentials());
         // 以后我们使用 Spring 管理 Shiro 的时候，就不必要这样得到 UserService 了
-        userService = (IUserService) InitServlet.getBean("userService");
+        // userService = (IUserService) InitServlet.getBean("userService");
         // User user = userService.login(username,password);
         // 这里应该使用 load 方法，比对用户名的密码的环节应该交给 Shiro 这个框架去完成
         User user = userService.loadByUsername(username);
