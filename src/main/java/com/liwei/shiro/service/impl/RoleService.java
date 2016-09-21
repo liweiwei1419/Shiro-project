@@ -1,5 +1,6 @@
 package com.liwei.shiro.service.impl;
 
+import com.liwei.shiro.cache.BaseCacheService;
 import com.liwei.shiro.dao.RoleDao;
 import com.liwei.shiro.dao.UserDao;
 import com.liwei.shiro.model.Resource;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 @Service
-public class RoleService implements IRoleService {
+public class RoleService extends BaseCacheService implements IRoleService {
 
     @Autowired
     private RoleDao roleDao;
@@ -39,7 +40,12 @@ public class RoleService implements IRoleService {
 
     @Override
     public List<Role> list() {
-        return roleDao.listRole();
+        List<Role> roles = (List<Role>) super.get("allRoles");
+        if(roles == null){
+            roles = roleDao.listRole();
+            super.put("allRoles",roles);
+        }
+        return roles;
     }
 
     @Override
@@ -54,17 +60,17 @@ public class RoleService implements IRoleService {
 
     @Override
     public UserRole loadUserRole(int uid, int roleId) {
-        return roleDao.loadUserRole(uid,roleId);
+        return roleDao.loadUserRole(uid, roleId);
     }
 
     @Override
     public void addUserRole(int uid, int roleId) {
-        roleDao.addUserRole(uid,roleId);
+        roleDao.addUserRole(uid, roleId);
     }
 
     @Override
     public void deleteUserRole(int uid, int roleId) {
-        roleDao.deleteUserRole(uid,roleId);
+        roleDao.deleteUserRole(uid, roleId);
     }
 
     @Override
@@ -79,16 +85,20 @@ public class RoleService implements IRoleService {
 
     @Override
     public void addRoleResource(int roleId, int resId) {
-        roleDao.addRoleResource(roleId,resId);
+        roleDao.addRoleResource(roleId, resId);
     }
 
     @Override
     public void deleteRoleResource(int roleId, int resId) {
-        roleDao.deleteRoleResource(roleId,resId);
+        roleDao.deleteRoleResource(roleId, resId);
     }
 
     @Override
     public RoleResource loadResourceRole(int roleId, int resId) {
-        return roleDao.loadResourceRole(roleId,resId);
+        return roleDao.loadResourceRole(roleId, resId);
+    }
+
+    public RoleService() {
+        super.setCacheName("roleServiceCache");
     }
 }

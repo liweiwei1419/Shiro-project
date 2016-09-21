@@ -1,5 +1,6 @@
 package com.liwei.shiro.service.impl;
 
+import com.liwei.shiro.cache.BaseCacheService;
 import com.liwei.shiro.dao.RoleDao;
 import com.liwei.shiro.dao.UserDao;
 import com.liwei.shiro.kit.ShiroKit;
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 @Service
-public class UserService implements IUserService {
+public class UserService extends BaseCacheService implements IUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -151,7 +152,12 @@ public class UserService implements IUserService {
      */
     @Override
     public List<User> list() {
-        return userDao.listUser();
+        List<User> users = (List<User>) super.get("allUsers");
+        if(users==null){
+            users = userDao.listUser();
+            super.put("allUsers",users);
+        }
+        return users;
     }
 
     /**
@@ -192,5 +198,10 @@ public class UserService implements IUserService {
     @Override
     public List<Role> listUserRole(int uid) {
         return userDao.listUserRole(uid);
+    }
+
+
+    public UserService() {
+        super.setCacheName("userServiceCache");
     }
 }

@@ -151,6 +151,7 @@
             <version>${shiro.version}</version>
         </dependency>
 
+
         <!-- 添加 shiro-ehcache 接口依赖-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -165,6 +166,11 @@
             <version>2.10.2.2.21</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
     </dependencies>
     <build>

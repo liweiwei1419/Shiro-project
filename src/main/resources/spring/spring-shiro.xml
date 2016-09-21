@@ -85,7 +85,17 @@
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 
-    <!-- 配置缓存相关 -->
+    <!-- 配置 shiro 的 ehcache 缓存相关,这个缓存只和 Realm 相关 -->
     <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"></bean>
+
+    <!-- 配置 Spring 的 EhCacheManagerFactoryBean ,须要 spring-context-support 的支持 -->
+    <bean id="ehCacheManagerFactoryBean" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <!--<property name="configLocation" value="classpath:ehcache.xml"/>-->
+    </bean>
+
+    <!-- 配置 Spring 的 EhCacheCacheManager,须要 spring-context-support 的支持 -->
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehCacheManagerFactoryBean"/>
+    </bean>
 
 </beans>
