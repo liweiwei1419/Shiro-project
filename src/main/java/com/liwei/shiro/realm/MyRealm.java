@@ -11,8 +11,10 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +42,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        logger.debug("MyRealm doGetAuthorizationInfo");
+        logger.info("--- MyRealm doGetAuthorizationInfo ---");
 
         // 获得经过认证的主体信息
         User user = (User)principalCollection.getPrimaryPrincipal();
@@ -73,6 +75,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        logger.info("--- MyRealm doGetAuthenticationInfo ---");
         String username = authenticationToken.getPrincipal().toString();
         // String password = new String((char[])authenticationToken.getCredentials());
         // 以后我们使用 Spring 管理 Shiro 的时候，就不必要这样得到 UserService 了
@@ -86,5 +89,51 @@ public class MyRealm extends AuthorizingRealm {
         // 设置盐值
         info.setCredentialsSalt(ByteSource.Util.bytes(username.getBytes()));
         return info;
+    }
+
+    @Override
+    protected void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+        Cache c = getAuthenticationCache();
+        logger.info("清除【认证】缓存之前");
+        for(Object o : c.keys()){
+            logger.info( o + " , " + c.get(o));
+        }
+        super.clearCachedAuthenticationInfo(principals);
+        logger.info("调用父类清除【认证】缓存之后");
+        for(Object o : c.keys()){
+            logger.info( o + " , " + c.get(o));
+        }
+
+        // 添加下面的代码清空【认证】的缓存
+        User user = (User) principals.getPrimaryPrincipal();
+        SimplePrincipalCollection spc = new SimplePrincipalCollection(user.getUsername(),getName());
+        super.clearCachedAuthenticationInfo(spc);
+        logger.info("添加了代码清除【认证】缓存之后");
+        int cacheSize = c.keys().size();
+        logger.info("【认证】缓存的大小:" + c.keys().size());
+        if (cacheSize == 0){
+            logger.info("说明【认证】缓存被清空了。");
+        }
+    }
+
+    @Override
+    protected void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+        logger.info("清除【授权】缓存之前");
+        Cache c = getAuthorizationCache();
+        for(Object o : c.keys()){
+            logger.info( o + " , " + c.get(o));
+        }
+        super.clearCachedAuthorizationInfo(principals);
+        logger.info("清除【授权】缓存之后");
+        int cacheSize = c.keys().size();
+        logger.info("【授权】缓存的大小:" + cacheSize);
+
+        for(Object o : c.keys()){
+            logger.info( o + " , " + c.get(o));
+        }
+        if(cacheSize == 0){
+            logger.info("说明【授权】缓存被清空了。");
+        }
+
     }
 }

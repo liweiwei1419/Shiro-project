@@ -21,6 +21,19 @@
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
         <!-- 将自定义的权限匹配器注入到自定义 Realm 中 -->
         <property name="permissionResolver" ref="permissionResolver"/>
+
+        <!-- 配置缓存相关 -->
+        <!-- 启用缓存 -->
+        <property name="cachingEnabled" value="true"/>
+        <!-- 开启认证缓存-->
+        <property name="authenticationCachingEnabled" value="true"/>
+        <!-- 指定认证缓存的名字(与 ehcache.xml 中声明的相同) -->
+        <property name="authenticationCacheName" value="shiro-authenticationCache"/>
+        <!--开启授权缓存-->
+        <property name="authorizationCachingEnabled" value="true"/>
+        <!-- 指定授权缓存的名字(与 ehcache.xml 中声明的相同) -->
+        <property name="authorizationCacheName" value="shiro-authorizationCache"/>
+
     </bean>
 
     <!-- 自定义一个权限匹配器 -->
@@ -66,7 +79,13 @@
         <!-- By default the servlet container sessions will be used.  Uncomment this line
              to use shiro's native sessions (see the JavaDoc for more): -->
         <!-- <property name="sessionMode" value="native"/> -->
+
+        <property name="cacheManager" ref="ehCacheManager"/>
     </bean>
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+
+    <!-- 配置缓存相关 -->
+    <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"></bean>
 
 </beans>

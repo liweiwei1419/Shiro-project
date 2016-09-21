@@ -32,7 +32,8 @@
                         <div class="form-group">
                             <label for="inputPassword" class="col-sm-2 control-label">密码</label>
                             <div class="col-sm-10">
-                                <sf:input path="password" class="form-control" id="inputPassword" placeholder="请输入密码"/>
+                                <%--<sf:input path="password" class="form-control" id="inputPassword" placeholder="请输入密码"/>--%>
+                                <input class="form-control" id="inputPassword" value="${user.password}" readonly/>
                             </div>
                         </div>
 
