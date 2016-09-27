@@ -49,6 +49,23 @@
 授权时候的 key 值是一个对象
 认证时候的 key 值是用户名
 
+
+<aop:aspectj-autoproxy/> 的作用和 @EnableAspectJAutoProxy 是一样的。
+
+
 上面我们仅仅只是对 Realm 中的认证和授权方法使用了缓存技术。
 下面,我们让 UserService 这个实现类通过 Spring AOP 的方式实现缓存,避免同样的数据多次访问数据库。。
 目标:查询列表的方法添加了缓存。
+
+添加了缓存以后,相应的增加、删除、修改的方法要清空缓存。
+
+Spring MVC 使用 AOP 拦截控制器层须要注意的事项:
+http://blog.csdn.net/pyxly1314/article/details/47152827
+
+System.out.println("------ 方法签名 ------ " + pjp.getSignature());
+System.out.println("------ 方法参数 ------ " + Arrays.toString(pjp.getArgs()));
+System.out.println("------ 方法名 ------ " + pjp.getSignature().getName());
+System.out.println("------ 方法所在的类的全类名 ------ " + pjp.getSignature().getDeclaringTypeName());
+
+
+为本项目添加事务支持,此时已经产生了抛出了异常,但是数据一致性没有保证。

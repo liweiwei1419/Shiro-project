@@ -12,7 +12,6 @@
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <!-- 设置该密码匹配器使用的算法是 md5 -->
         <property name="hashAlgorithmName" value="md5"/>
-
     </bean>
 
     <!-- 声明一个自定义的 Realm -->
@@ -90,7 +89,7 @@
 
     <!-- 配置 Spring 的 EhCacheManagerFactoryBean ,须要 spring-context-support 的支持 -->
     <bean id="ehCacheManagerFactoryBean" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <!--<property name="configLocation" value="classpath:ehcache.xml"/>-->
+        <property name="configLocation" value="classpath:ehcache.xml"/>
     </bean>
 
     <!-- 配置 Spring 的 EhCacheCacheManager,须要 spring-context-support 的支持 -->

@@ -10,6 +10,7 @@ import org.springframework.cache.CacheManager;
  * 注意:该基础缓存服务类中使用的缓存都是 Spring 框架提供的缓存
  *
  */
+
 public class BaseCacheService implements InitializingBean{
 
     /**
