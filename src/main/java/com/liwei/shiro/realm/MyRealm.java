@@ -77,18 +77,26 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         logger.info("--- MyRealm doGetAuthenticationInfo ---");
         String username = authenticationToken.getPrincipal().toString();
-        // String password = new String((char[])authenticationToken.getCredentials());
+        String password = new String((char[])authenticationToken.getCredentials());
         // 以后我们使用 Spring 管理 Shiro 的时候，就不必要这样得到 UserService 了
         // userService = (IUserService) InitServlet.getBean("userService");
         // User user = userService.login(username,password);
         // 这里应该使用 load 方法，比对用户名的密码的环节应该交给 Shiro 这个框架去完成
-        User user = userService.loadByUsername(username);
-        // 第 1 个参数可以传一个实体对象，然后在认证的环节可以取出
-        // 第 2 个参数应该传递在数据库中“正确”的数据，然后和 token 中的数据进行匹配
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,user.getPassword(),getName());
-        // 设置盐值
-        info.setCredentialsSalt(ByteSource.Util.bytes(username.getBytes()));
-        return info;
+
+        // 在测试调试的时候发现,这里还是应该使用 login 判断,因为登录不成功的原因有很多,
+        // 可以在登录的逻辑里面抛出各种异常
+        // 再到 subject.login(token) 里面去捕获对应的异常
+        // 显示不同的消息到页面上
+        User user = userService.login(username,password);
+        if(user!=null){
+            // 第 1 个参数可以传一个实体对象，然后在认证的环节可以取出
+            // 第 2 个参数应该传递在数据库中“正确”的数据，然后和 token 中的数据进行匹配
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,user.getPassword(),getName());
+            // 设置盐值
+            info.setCredentialsSalt(ByteSource.Util.bytes(username.getBytes()));
+            return info;
+        }
+        return null;
     }
 
     @Override
