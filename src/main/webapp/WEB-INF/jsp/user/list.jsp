@@ -10,6 +10,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="info">
+                        <th></th>
                         <th>用户标识</th>
                         <th>用户名</th>
                         <th>密码</th>
@@ -21,9 +22,13 @@
                 <tbody>
                     <c:forEach items="${list}" var="user">
                         <tr>
+                            <td><input type="checkbox" class="userId" value="${user.id}"></td>
                             <td>${user.id}</td>
                             <td>${user.username}</td>
-                            <td>${user.password}</td>
+                            <td>
+                                (密码已经加密,查询无意义)
+                                <%--${user.password}--%>
+                            </td>
                             <td>${user.nickname}</td>
                             <td >
                                 【<a class="status" data-id="${user.id}" data-status="${user.status}">启用</a>】
@@ -38,6 +43,7 @@
             </table>
             用户操作：
             <a class="btn btn-primary" role="button" href="${pageContext.request.contextPath}/admin/user/add">添加用户</a>
+            <a class="btn btn-primary" role="button" href="#" id="deleteUserBtn" >删除用户</a>
         </div>
 
         <%-- 不要使用自结束 --%>
@@ -75,6 +81,39 @@
                             }
                     );
 
+                });
+
+
+                // 批量删除
+                $("#deleteUserBtn").on("click",function(){
+                    var checkedArray =[];
+                    $('input[class="userId"]:checked').each(function(){
+                        checkedArray.push($(this).val());
+                    });
+
+                    if(checkedArray.length==0){
+                        alert("您还没有选择要删除的内容!");
+                    }
+                    // 这里也可以使用表单提交的方式删除
+                    $.ajax({
+                        type:"post",
+                        url:"${pageContext.request.contextPath}/admin/user/delete",
+                        dataType:"json",
+                        data:{
+                            userIds:checkedArray,
+                            testData:"testStr"
+                        },
+                        success:function (data) {
+                            if(data.success){
+                                alert("数据删除成功!");
+                                location.href = "${pageContext.request.contextPath}/admin/user/list";
+                            }
+                        },
+                        error:function () {
+                            alert("后台数据出错,请联系管理员");
+                        }
+
+                    });
                 });
             })
         </script>

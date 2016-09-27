@@ -13,4 +13,4 @@
     <a class="btn btn-warning" role="button" href="${pageContext.request.contextPath}/logout">退出登录</a>
 </div>
 <hr style="clear: both;margin-top: 50px">
-<link href="${pageContext.request.contextPath}/resources/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>

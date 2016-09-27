@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -50,8 +47,6 @@ public class UserController {
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String add(Model model){
         logger.debug("跳转到添加用户的页面");
-        // // TODO: 2016/9/18 为什么？
-        // 这里使用了 Spring 的表单，进行初始化和表单数据回显
         model.addAttribute("user",new User());
         model.addAttribute("roles",roleService.list());
         return "user/add";
@@ -59,13 +54,12 @@ public class UserController {
 
     /**
      * 添加用户保存的方法
-     * @param model
      * @param user
      * @param request
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(Model model, User user, HttpServletRequest request){
+    public String add(User user, HttpServletRequest request){
         logger.debug("添加用户 post 方法");
         logger.debug(user.toString());
         List<Integer> roleIdList = new ArrayList<>();
@@ -81,9 +75,9 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/updateStatus",method = RequestMethod.POST)
     public Map<String,Object> updateStatus(User user){
-        Integer updateNum = userService.update(user);
+        User u = userService.update(user);
         Map<String,Object> result = new HashMap<>();
-        if(updateNum > 0){
+        if(u != null){
             result.put("success",true);
         }else {
             result.put("success",false);
@@ -153,6 +147,23 @@ public class UserController {
         model.addAttribute("resources",resourceList);
         model.addAttribute("user",user);
         return "user/resources";
+    }
+
+    /**
+     * 批量删除用户
+     * 1、删除用户数据
+     * 2、删除用户绑定的角色数据
+     * @param userIds
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public Map<String,Object> delete(
+            @RequestParam("userIds[]") List<Integer> userIds){
+        userService.deleteUserAndRole(userIds);
+        Map<String,Object> result = new HashMap<>();
+        result.put("success",true);
+        return result;
     }
 
 }

@@ -3,6 +3,7 @@ package com.liwei.shiro.dao;
 import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface UserDao {
     Integer update(User user);
 
     Integer delete(Integer id);
+
+    Integer batchDelete(@Param("ids") List<Integer> ids);
 
     User load(Integer id);
 

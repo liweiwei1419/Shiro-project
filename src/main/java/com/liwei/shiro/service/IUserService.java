@@ -15,20 +15,26 @@ public interface IUserService {
      * 添加单个用户
      * @param user
      */
-    Integer add(User user);
+    User add(User user);
 
     /**
      * 批量添加用户角色关联表数据
      * @param user
      * @param rids
      */
-    void add(User user,List<Integer> rids);
+    User add(User user,List<Integer> rids);
 
     /**
      * 根据 user_id 删除用户数据
      * @param id
      */
     void delete(int id);
+
+    /**
+     * 删除用户和用户绑定的角色信息
+     * @param ids
+     */
+    void deleteUserAndRole(List<Integer> ids);
 
     /**
      * // TODO: 2016/9/18   应该设置为一个事务
@@ -40,14 +46,14 @@ public interface IUserService {
      * @param user
      * @param rids
      */
-    void update(User user,List<Integer> rids);
+    User update(User user,List<Integer> rids);
 
     /**
      * 更新单个用户信息
      * @param user
      * @return
      */
-    Integer update(User user);
+    User update(User user);
 
     /**
      * 根据主键 id 加载用户对象

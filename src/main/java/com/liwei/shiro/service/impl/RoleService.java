@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 @Service
-public class RoleService extends BaseCacheService implements IRoleService {
+public class RoleService implements IRoleService {
 
     @Autowired
     private RoleDao roleDao;
@@ -40,12 +40,7 @@ public class RoleService extends BaseCacheService implements IRoleService {
 
     @Override
     public List<Role> list() {
-        List<Role> roles = (List<Role>) super.get("allRoles");
-        if(roles == null){
-            roles = roleDao.listRole();
-            super.put("allRoles",roles);
-        }
-        return roles;
+        return roleDao.listRole();
     }
 
     @Override
@@ -98,7 +93,4 @@ public class RoleService extends BaseCacheService implements IRoleService {
         return roleDao.loadResourceRole(roleId, resId);
     }
 
-    public RoleService() {
-        super.setCacheName("roleServiceCache");
-    }
 }

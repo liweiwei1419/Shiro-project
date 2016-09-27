@@ -35,6 +35,14 @@
         where id = #{id}
     </delete>
 
+    <!--  批量删除 -->
+    <delete id="batchDelete" parameterType="list">
+        DELETE FROM t_user
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="load" parameterType="int" resultType="User">
         SELECT
@@ -117,6 +125,5 @@
             LEFT JOIN `t_user` tu ON tur.`user_id` = tu.id
         WHERE tu.`id` = #{uid}
     </select>
-
 
 </mapper>

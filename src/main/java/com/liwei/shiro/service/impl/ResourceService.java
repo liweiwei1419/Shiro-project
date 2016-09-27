@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Liwei on 2016/9/19.
  */
 @Service
-public class ResourceService extends BaseCacheService implements IResourceService {
+public class ResourceService implements IResourceService {
 
     @Autowired
     private ResourceDao resourceDao;
@@ -42,15 +42,7 @@ public class ResourceService extends BaseCacheService implements IResourceServic
 
     @Override
     public List<Resource> listResource() {
-        List<Resource> resources = (List<Resource>)super.get("allResources");
-        if(resources==null){
-            resources = resourceDao.listResource();
-            super.put("allResources",resources);
-        }
-        return resources;
+        return resourceDao.listResource();
     }
 
-    public ResourceService() {
-        super.setCacheName("resourceServiceCache");
-    }
 }

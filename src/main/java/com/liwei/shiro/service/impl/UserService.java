@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 @Service
-public class UserService extends BaseCacheService implements IUserService {
+public class UserService implements IUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -38,12 +39,11 @@ public class UserService extends BaseCacheService implements IUserService {
      * @return
      */
     @Override
-    public Integer add(User user) {
+    public User add(User user) {
         // 使用用户名作为盐值，MD5 算法加密
         user.setPassword(ShiroKit.md5(user.getPassword(),user.getUsername()));
         userDao.add(user);
-        Integer userId = user.getId();
-        return userId;
+        return user;
     }
 
     /**
@@ -51,10 +51,12 @@ public class UserService extends BaseCacheService implements IUserService {
      * @param user
      * @param rids
      */
+    @Transactional
     @Override
-    public void add(User user, List<Integer> rids) {
-        Integer userId = this.add(user);
+    public User add(User user, List<Integer> rids) {
+        Integer userId = this.add(user).getId();
         roleDao.addUserRoles(userId,rids);
+        return user;
     }
 
     /**
@@ -64,6 +66,17 @@ public class UserService extends BaseCacheService implements IUserService {
     @Override
     public void delete(int id) {
         userDao.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserAndRole(List<Integer> ids) {
+        // 删除用户列表
+        userDao.batchDelete(ids);
+        // 依次删除这些用户所绑定的角色
+        for(Integer userId:ids){
+            roleDao.deleteUserRoles(userId);
+        }
     }
 
     /**
@@ -77,11 +90,12 @@ public class UserService extends BaseCacheService implements IUserService {
      * @param rids
      */
     @Override
-    public void update(User user, List<Integer> rids) {
+    public User update(User user, List<Integer> rids) {
         Integer userId = user.getId();
         roleDao.deleteUserRoles(userId);
         roleDao.addUserRoles(userId,rids);
         this.update(user);
+        return user;
     }
 
     /**
@@ -90,12 +104,13 @@ public class UserService extends BaseCacheService implements IUserService {
      * @return
      */
     @Override
-    public Integer update(User user) {
+    public User update(User user) {
         String password = user.getPassword();
         if(password!=null){
             user.setPassword(ShiroKit.md5(user.getPassword(),user.getUsername()));
         }
-        return userDao.update(user);
+        userDao.update(user);
+        return user;
     }
 
     /**
@@ -130,18 +145,12 @@ public class UserService extends BaseCacheService implements IUserService {
     @Override
     public User login(String username, String password) {
         User user = userDao.loadByUserName(username);
-        if(user == null){
-            // 抛出对象不存在异常
-            // TODO: 2016/9/18  应该使用 Shiro 框架的登录方式，暂时先这样
-            logger.debug("用户名不存在");
-            throw new UnknownAccountException("用户名和密码不匹配");
-        }else if(false){
-            // !user.getPassword().equals(password)
-            logger.debug("密码错误");
-            // 抛出密码不匹配异常
-            throw new IncorrectCredentialsException("用户名和密码不匹配");
+        // 密码匹配的工作交给 Shiro 去完成
+        if(user == null ){
+            // 因为缓存切面的原因,在这里就抛出用户名不存在的异常
+            throw new UnknownAccountException("用户名不存在(生产环境中应该写:用户名和密码的组合不正确)");
         }else if(user.getStatus() == 0){
-            throw new LockedAccountException("用户已经被锁定，请联系管理员启动");
+            throw new LockedAccountException("用户已经被禁用，请联系管理员启用该账号");
         }
         return user;
     }
@@ -152,12 +161,7 @@ public class UserService extends BaseCacheService implements IUserService {
      */
     @Override
     public List<User> list() {
-        List<User> users = (List<User>) super.get("allUsers");
-        if(users==null){
-            users = userDao.listUser();
-            super.put("allUsers",users);
-        }
-        return users;
+        return userDao.listUser();
     }
 
     /**
@@ -200,8 +204,4 @@ public class UserService extends BaseCacheService implements IUserService {
         return userDao.listUserRole(uid);
     }
 
-
-    public UserService() {
-        super.setCacheName("userServiceCache");
-    }
 }

@@ -2,8 +2,9 @@ package com.liwei.shiro.web;
 
 import com.liwei.shiro.model.User;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
+
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.security.auth.login.AccountLockedException;
+
 
 /**
  * Created by Liwei on 2016/9/19.
@@ -45,11 +49,15 @@ public class LoginController {
             msg = e.getMessage();
         } catch (IncorrectCredentialsException e){
             e.printStackTrace();
+            msg = "密码不匹配(生产环境中应该写:用户名和密码的组合不正确)";
+        } catch (LockedAccountException e){
+            e.printStackTrace();
             msg = e.getMessage();
         }
         if(msg == null){
             return "redirect:/admin/user/list";
         }
+
         model.addAttribute("msg",msg);
         return "login";
     }
