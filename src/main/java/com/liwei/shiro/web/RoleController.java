@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,6 +141,26 @@ public class RoleController {
         return result;
     }
 
+    /**
+     *
+     * @param roleIds
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public Map<String,Object> deleteRole(@RequestParam("roleIds[]") List<Integer> roleIds){
+        logger.debug(roleIds.toString());
+        for(Integer roleId:roleIds){
+            logger.debug(roleId.toString());
+        }
+
+        // 先批量删除角色,再从角色资源表中删除角色资源数据
+        roleService.deleteRoleAndResource(roleIds);
+        // 用户绑定到这个角色上,也应该删除
+        roleService.deleteRoleAndUser(roleIds);
+        Map<String,Object> result = new HashMap<>();
+        result.put("success",true);
+        return result;
+    }
 
 
 }

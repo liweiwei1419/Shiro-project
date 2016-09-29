@@ -17,11 +17,11 @@ public interface RoleDao {
 
     Integer delete(Integer id);
 
+    Integer batchDelete(@Param("ids") List<Integer> ids);
+
     Role load(Integer id);
 
     Integer update(Role role);
-
-
 
     List<Role> listRole();
 
@@ -52,6 +52,9 @@ public interface RoleDao {
      * @param uid
      */
     Integer deleteUserRoles(int uid);
+
+    Integer batchDeleteRoleResource(@Param("roleIds") List<Integer> roleIds);
+
     /**
      * 根据角色id获取可以访问的所有资源
      * @param roleId
@@ -64,4 +67,6 @@ public interface RoleDao {
     Integer deleteRoleResource(@Param("roleId")int roleId,@Param("resourceId")int resorceId);
 
     RoleResource loadResourceRole(@Param("roleId")int roleId,@Param("resourceId") int resorceId);
+
+    Integer deleteRoleAndUser(@Param("ids") List<Integer> ids);
 }

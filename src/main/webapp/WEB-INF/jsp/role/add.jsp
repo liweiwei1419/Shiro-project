@@ -14,13 +14,13 @@
                         <div class="form-group">
                             <label for="inputName" class="col-sm-2 control-label">角色名称</label>
                             <div class="col-sm-10">
-                                <sf:input path="name" class="form-control" id="inputName" placeholder="Email"/>
+                                <sf:input path="name" class="form-control" id="inputName" placeholder="请填写角色名称"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputSn" class="col-sm-2 control-label">角色表示字符串</label>
                             <div class="col-sm-10">
-                                <sf:input path="sn" class="form-control" id="inputSn" placeholder="Email"/>
+                                <sf:input path="sn" class="form-control" id="inputSn" placeholder="请填写角色表示字符串"/>
                             </div>
                         </div>
                         <div class="form-group">

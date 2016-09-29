@@ -5,6 +5,7 @@ import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.User;
 import com.liwei.shiro.service.IRoleService;
 import com.liwei.shiro.service.IUserService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

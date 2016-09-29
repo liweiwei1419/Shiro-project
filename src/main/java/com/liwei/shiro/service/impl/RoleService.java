@@ -10,6 +10,7 @@ import com.liwei.shiro.model.UserRole;
 import com.liwei.shiro.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,13 @@ public class RoleService implements IRoleService {
     @Override
     public Integer delete(int id) {
         return roleDao.delete(id);
+    }
+
+    @Transactional
+    @Override
+    public void deleteRoleAndResource(List<Integer> ids) {
+        roleDao.batchDelete(ids);
+        roleDao.batchDeleteRoleResource(ids);
     }
 
     @Override
@@ -91,6 +99,11 @@ public class RoleService implements IRoleService {
     @Override
     public RoleResource loadResourceRole(int roleId, int resId) {
         return roleDao.loadResourceRole(roleId, resId);
+    }
+
+    @Override
+    public Integer deleteRoleAndUser(List<Integer> ids) {
+        return roleDao.deleteRoleAndUser(ids);
     }
 
 }

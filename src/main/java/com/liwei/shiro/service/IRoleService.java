@@ -4,6 +4,7 @@ import com.liwei.shiro.model.Resource;
 import com.liwei.shiro.model.Role;
 import com.liwei.shiro.model.RoleResource;
 import com.liwei.shiro.model.UserRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,6 +24,13 @@ public interface IRoleService {
      * @param id
      */
     Integer delete(int id);
+
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    void deleteRoleAndResource(List<Integer> ids);
 
     /**
      * 根据 id 加载角色对象
@@ -104,4 +112,7 @@ public interface IRoleService {
      * @return
      */
     RoleResource loadResourceRole(int roleId, int resId);
+
+
+    Integer deleteRoleAndUser(List<Integer> ids);
 }
