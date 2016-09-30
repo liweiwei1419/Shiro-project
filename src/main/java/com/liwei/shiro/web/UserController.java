@@ -161,9 +161,15 @@ public class UserController {
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Map<String,Object> delete(
             @RequestParam("userIds[]") List<Integer> userIds){
-        userService.deleteUserAndRole(userIds);
         Map<String,Object> result = new HashMap<>();
-        result.put("success",true);
+        try{
+            userService.deleteUserAndRole(userIds);
+            result.put("success",true);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            result.put("success",false);
+            result.put("errorInfo",e.getMessage());
+        }
         return result;
     }
 

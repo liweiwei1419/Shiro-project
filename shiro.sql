@@ -16,9 +16,11 @@ CREATE TABLE t_user(
 INSERT INTO t_user(username,`password`,nickname,`status`)
 VALUES('admin','a66abb5684c45962d887564f08346e8d','超级管理员',1);
 INSERT INTO t_user(username,`password`,nickname,`status`)
-VALUES('liwei','be78263da332dc2c7005f7551d7e57cd','李威',1);
+VALUES('dev','c43812121e594f158520698ba706118f','开发工程师',1);
 INSERT INTO t_user(username,`password`,nickname,`status`)
-VALUES('huzhenyu','63b4dcd0c5cc379093d934aee7c32925','胡振宇',1);
+VALUES('test','47ec2dd791e31e2ef2076caf64ed9b3d','测试工程师',1);
+INSERT INTO t_user(username,`password`,nickname,`status`)
+VALUES('doc','5afd1e481507a2a181decc3860b32d15','文档工程师',1);
 
 # 创建数据表 t_role
 # name 字段用于显示给人看, sn 字段用在代码中做角色匹配
@@ -29,7 +31,7 @@ CREATE TABLE t_role(
 )engine=innodb auto_increment=1 DEFAULT charset=utf8 comment='角色信息表';
 
 # 创建数据用于测试
-INSERT INTO t_role(`name`,`sn`) VALUES('管理员','admin'),('开发工程师','dev'),('测试工程师','test');
+INSERT INTO t_role(`name`,`sn`) VALUES('管理员','admin'),('开发工程师','dev'),('测试工程师','test'),('文档工程师','doc');
 
 # 创建数据表 t_user_role
 CREATE TABLE t_user_role(
@@ -40,7 +42,7 @@ CREATE TABLE t_user_role(
 
 # 创建数据用于测试
 INSERT INTO `t_user_role`(`user_id`,`role_id`)
-VALUES(1,1),(2,2),(3,3);
+VALUES(1,1),(2,2),(3,3),(4,4);
 
 # 创建资源表 t_resource
 # 资源在本项目中的含义就是 "权限"
@@ -56,15 +58,16 @@ INSERT INTO t_resource(`name`,permission,url)
 VALUES('系统管理','admin:*','/admin/**'),
 ('用户管理','user:*','/admin/user/**'),
 ('用户添加','user:add','/admin/user/add'),
-('用户删除','user:delete','/admin/delete/**'),
+('用户删除','user:delete','/admin/user/delete'),
 ('用户修改','user:update','/admin/user/update'),
 ('用户查询','user:list','/admin/user/list'),
+('用户资源查询','user:resources:*','/admin/user/resources/*'),
 ('角色管理','role:*','/admin/role/**'),
 ('角色添加','role:add','/admin/role/add'),
 ('角色删除','role:delete','/admin/role/delete'),
 ('角色修改','role:update','/admin/role/update'),
 ('角色查询','role:list','/admin/role/list'),
-('角色资源设置','role:resources:*','/admin/role/resources/*'),
+('角色资源查询','role:resources:*','/admin/role/resources/*'),
 ('资源管理','resource:*','/admin/resource/**'),
 ('资源增加','resource:add','/admin/resource/add'),
 ('资源删除','resource:delete','/admin/resource/delete'),
@@ -81,4 +84,7 @@ CREATE TABLE t_role_resource(
 
 # 创建数据用于测试
 INSERT INTO t_role_resource(role_id,resource_id)
-VALUES(1,1);
+VALUES(1,1),
+(2,3),(2,5),(2,6),(2,7),(2,9),(2,11),(2,12),(2,13),(2,15),(2,17),(2,18),
+(3,6),(3,7),(3,8),(3,14),
+(4,6),(4,7),(4,12),(4,18);

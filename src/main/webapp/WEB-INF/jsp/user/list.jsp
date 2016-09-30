@@ -108,6 +108,8 @@
                             if(data.success){
                                 alert("数据删除成功!");
                                 location.href = "${pageContext.request.contextPath}/admin/user/list";
+                            }else {
+                                alert(data.errorInfo);
                             }
                         },
                         error:function () {

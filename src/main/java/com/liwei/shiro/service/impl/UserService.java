@@ -65,12 +65,18 @@ public class UserService implements IUserService {
      */
     @Override
     public void delete(int id) {
+        if(id==1){
+            throw new RuntimeException("不能删除管理员用户");
+        }
         userDao.delete(id);
     }
 
     @Override
     @Transactional
     public void deleteUserAndRole(List<Integer> ids) {
+        if(ids.contains(1)){
+            throw new RuntimeException("不能删除管理员用户");
+        }
         // 删除用户列表
         userDao.batchDelete(ids);
         // 依次删除这些用户所绑定的角色
@@ -80,7 +86,7 @@ public class UserService implements IUserService {
     }
 
     /**
-     * // TODO: 2016/9/18   应该设置为一个事务
+     *
      * 更新用户数据
      * 1、更新用户基本信息
      * 2、更新用户所属角色
@@ -89,6 +95,7 @@ public class UserService implements IUserService {
      * @param user
      * @param rids
      */
+    @Transactional
     @Override
     public User update(User user, List<Integer> rids) {
         Integer userId = user.getId();

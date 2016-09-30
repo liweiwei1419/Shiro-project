@@ -2,11 +2,12 @@
 <html>
     <head>
         <title>Shiro 测试项目首页</title>
+        <link href="${pageContext.request.contextPath}/resources/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
     </head>
     <body>
         <div class="container">
-            <jsp:include page="jsp/common.jsp"/>
             <p>本项目使用基于 Spring4 的 Spring MVC 、Spring 搭建，ORM 框架使用 MyBatis ，安全框架使用 Shiro 。 </p>
+            <a href="${pageContext.request.contextPath}/login">进入登录页面</a>
         </div>
     </body>
 </html>
