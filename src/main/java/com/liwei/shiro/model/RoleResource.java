@@ -5,7 +5,6 @@ package com.liwei.shiro.model;
  * t_role_resource
  */
 public class RoleResource {
-
     private Integer id;
     private Integer roleId;
     private Integer resourceId;

@@ -12,7 +12,6 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 public interface RoleDao {
-
     Integer add(Role role);
 
     Integer delete(Integer id);
@@ -42,8 +41,6 @@ public interface RoleDao {
      * @return
      */
     Integer addUserRoles(@Param("userId") int userId,@Param("roleIds")List<Integer> roleIds);
-
-
 
     Integer deleteUserRole(@Param("userId") int userId,@Param("roleId") int roleId);
 

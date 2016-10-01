@@ -3,6 +3,17 @@ drop database ssm_shiro;
 CREATE DATABASE	ssm_shiro DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 # 使用数据库 ssm_shiro
 USE ssm_shiro;
+
+
+drop table if EXISTS t_user;
+drop table if EXISTS t_role;
+drop table if EXISTS t_user_role;
+drop table if EXISTS t_resource;
+drop table if EXISTS t_role_resource;
+
+
+
+
 # 创建数据表 t_user
 CREATE TABLE t_user(
   id TINYINT PRIMARY KEY AUTO_INCREMENT comment '用户 ID',

@@ -24,9 +24,7 @@ import javax.security.auth.login.AccountLockedException;
 @RequestMapping(value = "/")
 @Controller
 public class LoginController {
-
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login(){
@@ -74,5 +72,4 @@ public class LoginController {
     public String unAuthorization(){
         return "unAuthorization";
     }
-
 }

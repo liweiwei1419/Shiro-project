@@ -32,13 +32,10 @@
         <property name="authorizationCachingEnabled" value="true"/>
         <!-- 指定授权缓存的名字(与 ehcache.xml 中声明的相同) -->
         <property name="authorizationCacheName" value="shiro-authorizationCache"/>
-
     </bean>
 
     <!-- 自定义一个权限匹配器 -->
     <bean id="permissionResolver" class="com.liwei.shiro.permission.UrlPermissionResolver"/>
-
-
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -78,11 +75,9 @@
         <!-- By default the servlet container sessions will be used.  Uncomment this line
              to use shiro's native sessions (see the JavaDoc for more): -->
         <!-- <property name="sessionMode" value="native"/> -->
-
         <property name="cacheManager" ref="ehCacheManager"/>
     </bean>
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
 
     <!-- 配置 shiro 的 ehcache 缓存相关,这个缓存只和 Realm 相关 -->
     <bean id="ehCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"></bean>

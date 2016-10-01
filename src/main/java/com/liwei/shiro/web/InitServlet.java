@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
  * Created by Liwei on 2016/9/19.
  */
 public class InitServlet extends HttpServlet {
-
     private static WebApplicationContext wc;
 
     @Override

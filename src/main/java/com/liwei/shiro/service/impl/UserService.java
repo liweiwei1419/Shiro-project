@@ -24,12 +24,9 @@ import java.util.List;
  */
 @Service
 public class UserService implements IUserService {
-
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
     @Autowired
     private UserDao userDao;
-
     @Autowired
     private RoleDao roleDao;
 
@@ -210,5 +207,4 @@ public class UserService implements IUserService {
     public List<Role> listUserRole(int uid) {
         return userDao.listUserRole(uid);
     }
-
 }

@@ -15,10 +15,8 @@ import java.util.List;
  */
 @Service
 public class ResourceService implements IResourceService {
-
     @Autowired
     private ResourceDao resourceDao;
-
 
     @Override
     public Integer add(Resource res) {
@@ -44,5 +42,4 @@ public class ResourceService implements IResourceService {
     public List<Resource> listResource() {
         return resourceDao.listResource();
     }
-
 }

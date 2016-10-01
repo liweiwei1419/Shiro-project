@@ -12,15 +12,12 @@ import org.springframework.cache.CacheManager;
  */
 
 public class BaseCacheService implements InitializingBean{
-
     /**
      * Spring 的 Cache
      */
     @Autowired
     private CacheManager cacheManager;
-
     private Cache cache;
-
     private String cacheName;
 
     public void setCacheManager(CacheManager cacheManager) {
@@ -49,7 +46,6 @@ public class BaseCacheService implements InitializingBean{
     }
 
     // 以下是自定义的方法
-
     /**
      * 清空缓存中所有的对象
      */
@@ -86,5 +82,4 @@ public class BaseCacheService implements InitializingBean{
         }
         return null;
     }
-
 }

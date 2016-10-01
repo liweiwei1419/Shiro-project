@@ -5,7 +5,6 @@ package com.liwei.shiro.model;
  * t_user
  */
 public class User {
-
     private Integer id;
     /**
      * 用户名

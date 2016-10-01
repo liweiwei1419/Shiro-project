@@ -15,13 +15,7 @@ import org.springframework.stereotype.Service;
 @Aspect
 @EnableAspectJAutoProxy // 开启 AOP ,作用同 <aop:aspectj-autoproxy/>
 public class UserServiceAspect extends BaseCacheService{
-
     private static final Logger logger = LoggerFactory.getLogger(UserServiceAspect.class);
-
-    public UserServiceAspect(){
-        this.setCacheName("shiro-userCache");
-    }
-
     /**
      * id 前缀
      */
@@ -32,6 +26,9 @@ public class UserServiceAspect extends BaseCacheService{
      */
     private String usernamePrefix = "username-";
 
+    public UserServiceAspect(){
+        this.setCacheName("shiro-userCache");
+    }
 
     /**
      * target 表明只针对某个类实现 AOP 代理
@@ -39,7 +36,6 @@ public class UserServiceAspect extends BaseCacheService{
     @Pointcut("target(com.liwei.shiro.service.impl.UserService)")
     public void userServicePointcut(){
     }
-
 
     /**
      * 增加
@@ -52,13 +48,11 @@ public class UserServiceAspect extends BaseCacheService{
     public void userPutPointcut(){
     }
 
-
     /**
      * 加载和按照用户名加载的方法要缓存起来
      */
     @Pointcut("execution(* load(..)) || execution(* loadByUsername(..))")
     public void userReadPointcut(){
-
     }
 
     @Pointcut(value = "execution(* delete(*)) && args(arg)",argNames = "arg")
@@ -121,13 +115,7 @@ public class UserServiceAspect extends BaseCacheService{
             return user;
         }
         return  pjp.proceed();
-
     }
-
-
-
-
-
 
     /**
      * 【重要】
@@ -141,6 +129,4 @@ public class UserServiceAspect extends BaseCacheService{
         // 建立了一个 用户名前缀和 id 之间的关系
         super.put(usernamePrefix + rel.getUsername(),rel.getId());
     }
-
-
 }

@@ -19,10 +19,8 @@ import java.util.List;
  */
 @Service
 public class RoleService implements IRoleService {
-
     @Autowired
     private RoleDao roleDao;
-
 
     @Override
     public Integer add(Role role) {
@@ -105,5 +103,4 @@ public class RoleService implements IRoleService {
     public Integer deleteRoleAndUser(List<Integer> ids) {
         return roleDao.deleteRoleAndUser(ids);
     }
-
 }

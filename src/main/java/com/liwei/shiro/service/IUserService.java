@@ -10,7 +10,6 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 public interface IUserService {
-
     /**
      * 添加单个用户
      * @param user
@@ -113,5 +112,4 @@ public interface IUserService {
      * @return
      */
     List<Role> listUserRole(int uid);
-
 }

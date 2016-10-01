@@ -28,12 +28,9 @@ import java.util.List;
  * Created by Liwei on 2016/9/19.
  */
 public class MyRealm extends AuthorizingRealm {
-
+    private static final Logger logger = LoggerFactory.getLogger(MyRealm.class);
     @Autowired
     private IUserService userService;
-
-    private static final Logger logger = LoggerFactory.getLogger(MyRealm.class);
-
 
     /**
      * 授权

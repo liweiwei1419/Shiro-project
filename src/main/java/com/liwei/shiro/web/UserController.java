@@ -25,12 +25,9 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/admin/user")
 public class UserController {
-
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     private IUserService userService;
-
     @Autowired
     private IRoleService roleService;
 
@@ -117,7 +114,6 @@ public class UserController {
         return "user/update";
     }
 
-
     /**
      * 更新用户的信息（包括更新用户绑定的角色）
      * @param user
@@ -135,7 +131,6 @@ public class UserController {
         userService.update(user,roleIdList);
         return "redirect:/admin/user/list";
     }
-
 
     /**
      *  根据用户 id 跳转到用户权限的列表页面
@@ -172,5 +167,4 @@ public class UserController {
         }
         return result;
     }
-
 }

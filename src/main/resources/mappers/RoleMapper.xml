@@ -4,8 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liwei.shiro.dao.RoleDao">
 
-
-
     <insert id="add" parameterType="Role">
         INSERT INTO t_role(`name`,sn)
         VALUES (#{name},#{sn})
@@ -136,7 +134,6 @@
             #{roleId}
         </foreach>
     </delete>
-
 
     <delete id="deleteRoleAndUser" parameterType="list">
         DELETE FROM t_user_role

@@ -5,7 +5,6 @@ package com.liwei.shiro.model;
  * t_resource
  */
 public class Resource {
-
     private Integer id;
     private String name;
     private String permission;

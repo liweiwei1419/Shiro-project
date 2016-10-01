@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Liwei on 2016/9/19.
  */
 public class ResourceCheckFilter extends AccessControlFilter {
-
     private String errorUrl;
+    private static final Logger logger = LoggerFactory.getLogger(ResourceCheckFilter.class);
 
     public String getErrorUrl() {
         return errorUrl;
@@ -24,8 +24,6 @@ public class ResourceCheckFilter extends AccessControlFilter {
     public void setErrorUrl(String errorUrl) {
         this.errorUrl = errorUrl;
     }
-
-    private static final Logger logger = LoggerFactory.getLogger(ResourceCheckFilter.class);
 
     /**
      * 表示是否允许访问 ，如果允许访问返回true，否则false；
@@ -42,7 +40,6 @@ public class ResourceCheckFilter extends AccessControlFilter {
         logger.debug("当前用户正在访问的 url => " + url);
         return subject.isPermitted(url);
     }
-
 
     /**
      * onAccessDenied：表示当访问拒绝时是否已经处理了；如果返回 true 表示需要继续处理；如果返回 false 表示该拦截器实例已经处理了，将直接返回即可。

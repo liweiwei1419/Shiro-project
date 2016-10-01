@@ -5,7 +5,6 @@ package com.liwei.shiro.model;
  * t_role
  */
 public class Role {
-
     private Integer id;
     private String name;
     private String sn;

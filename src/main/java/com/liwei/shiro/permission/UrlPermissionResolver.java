@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
  * Created by Liwei on 2016/9/19.
  */
 public class UrlPermissionResolver implements PermissionResolver {
-
     private static final Logger logger = LoggerFactory.getLogger(UrlPermissionResolver.class);
 
     /**

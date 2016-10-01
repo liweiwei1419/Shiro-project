@@ -12,7 +12,6 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 public interface IRoleService {
-
     /**
      * 添加单个角色对象
      * @param role
@@ -112,7 +111,6 @@ public interface IRoleService {
      * @return
      */
     RoleResource loadResourceRole(int roleId, int resId);
-
 
     Integer deleteRoleAndUser(List<Integer> ids);
 }

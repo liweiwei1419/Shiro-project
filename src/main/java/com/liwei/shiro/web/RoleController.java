@@ -23,12 +23,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/role")
 public class RoleController {
-
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
-
     @Autowired
     private IRoleService roleService;
-
     @Autowired
     private IResourceService resourceService;
 
@@ -42,7 +39,6 @@ public class RoleController {
         model.addAttribute("roleList",roleList);
         return "role/list";
     }
-
 
     /**
      * 跳转到添加角色的页面
@@ -114,7 +110,6 @@ public class RoleController {
         return "role/resources";
     }
 
-
     /**
      * 设置用户权限
      * @return
@@ -161,6 +156,4 @@ public class RoleController {
         result.put("success",true);
         return result;
     }
-
-
 }

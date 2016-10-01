@@ -11,7 +11,6 @@ import java.util.List;
  * Created by Liwei on 2016/9/18.
  */
 public interface UserDao {
-
     Integer add(User user);
 
     Integer update(User user);

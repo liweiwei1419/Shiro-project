@@ -19,9 +19,7 @@ import java.util.List;
 @RequestMapping("/admin/resource")
 @Controller
 public class ResourceController {
-
     private static final Logger logger = LoggerFactory.getLogger(ResourceController.class);
-
     @Autowired
     private IResourceService resourceService;
 
@@ -82,6 +80,4 @@ public class ResourceController {
         resourceService.update(resource);
         return "redirect:/admin/resource/list";
     }
-
-
 }

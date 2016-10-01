@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
  * Created by Liwei on 2016/9/19.
  */
 public class UrlPermission implements Permission {
-
     private static final Logger logger = LoggerFactory.getLogger(UrlPermission.class);
-
     // 在 Realm 的授权方法中,由数据库查询出来的权限字符串
     private String url;
 

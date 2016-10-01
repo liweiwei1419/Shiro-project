@@ -8,7 +8,6 @@ import java.util.List;
  * Created by Liwei on 2016/9/19.
  */
 public interface IResourceService {
-
     Integer add(Resource res);
 
     Integer update(Resource res);
